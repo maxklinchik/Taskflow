@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Your Personal Task & Event Manager</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="hero">
+            <div class="logo">
+                <h1>📅 TaskFlow</h1>
+            </div>
+            <p class="tagline">Organize your tasks, events, and homework all in one place</p>
+        </header>
+
+        <!-- Auth Forms Container -->
+        <div class="auth-container">
+            <!-- Sign In Form -->
+            <div class="auth-box" id="signInBox">
+                <h2>Welcome Back</h2>
+                <form id="signInForm">
+                    <div class="form-group">
+                        <label for="signInEmail">Email</label>
+                        <input type="email" id="signInEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signInPassword">Password</label>
+                        <input type="password" id="signInPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+                <p class="toggle-text">Don't have an account? <a href="#" id="showSignUp">Sign up</a></p>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="auth-box hidden" id="signUpBox">
+                <h2>Create Account</h2>
+                <form id="signUpForm">
+                    <div class="form-group">
+                        <label for="signUpName">Full Name</label>
+                        <input type="text" id="signUpName" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpEmail">Email</label>
+                        <input type="email" id="signUpEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpPassword">Password</label>
+                        <input type="password" id="signUpPassword" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signUpConfirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+                <p class="toggle-text">Already have an account? <a href="#" id="showSignIn">Sign in</a></p>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <h3>Why Choose TaskFlow?</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h4>Task Management</h4>
+                    <p>Keep track of all your daily tasks and to-dos</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📆</div>
+                    <h4>Event Calendar</h4>
+                    <p>Never miss important events and appointments</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h4>Homework Tracker</h4>
+                    <p>Organize and prioritize your class assignments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/auth.js"></script>
+</body>
+</html>
+``  

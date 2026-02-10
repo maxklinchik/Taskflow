@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TaskFlow</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1>TaskFlow</h1>
+            <div class="user-section">
+                <span class="welcome-text">Welcome, <span id="userName">User</span>!</span>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-container">
+        <!-- Main Content Area - Homework -->
+        <section class="main-content">
+            <div class="section-header">
+                <h2 id="homeworkTitle">Homework by Class</h2>
+                <div class="header-actions">
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" id="classViewBtn" data-view="class">
+                            <span>📚</span> Class View
+                        </button>
+                        <button class="toggle-btn" id="listViewBtn" data-view="list">
+                            <span>📋</span> List View
+                        </button>
+                    </div>
+                    <button class="btn-add" id="addHomeworkBtn">+ Add Assignment</button>
+                </div>
+            </div>
+
+            <!-- Class View -->
+            <div class="homework-grid" id="homeworkGrid">
+                <!-- Class cards will be dynamically generated -->
+            </div>
+
+            <!-- List View (hidden by default) -->
+            <div class="homework-list-view hidden" id="homeworkListView">
+                <div class="list-item" data-due="2026-02-12" data-class="Math">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw1-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Chapter 5 Problems</h4>
+                        <div class="list-meta">
+                            <span class="list-class">Math</span>
+                            <span class="list-due">Due: Feb 12</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item" data-due="2026-02-13" data-class="English">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw6-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Essay Draft</h4>
+                        <div class="list-meta">
+                            <span class="list-class">English</span>
+                            <span class="list-due">Due: Feb 13</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item" data-due="2026-02-14" data-class="Chemistry">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw4-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Lab Report</h4>
+                        <div class="list-meta">
+                            <span class="list-class">Chemistry</span>
+                            <span class="list-due">Due: Feb 14</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item" data-due="2026-02-15" data-class="Math">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw2-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Quiz Preparation</h4>
+                        <div class="list-meta">
+                            <span class="list-class">Math</span>
+                            <span class="list-due">Due: Feb 15</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item" data-due="2026-02-16" data-class="Physics">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw5-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Read Chapter 8</h4>
+                        <div class="list-meta">
+                            <span class="list-class">Physics</span>
+                            <span class="list-due">Due: Feb 16</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item" data-due="2026-02-18" data-class="Math">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw3-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Geometry Assignment</h4>
+                        <div class="list-meta">
+                            <span class="list-class">Math</span>
+                            <span class="list-due">Due: Feb 18</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item" data-due="2026-02-20" data-class="English">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw7-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Book Review</h4>
+                        <div class="list-meta">
+                            <span class="list-class">English</span>
+                            <span class="list-due">Due: Feb 20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-item" data-due="2026-02-25" data-class="History">
+                    <div class="list-checkbox">
+                        <input type="checkbox" id="hw8-list">
+                    </div>
+                    <div class="list-content">
+                        <h4 class="list-title">Research Paper</h4>
+                        <div class="list-meta">
+                            <span class="list-class">History</span>
+                            <span class="list-due">Due: Feb 25</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar">
+            <!-- Upcoming Tasks -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <h3>Upcoming Tasks</h3>
+                    <button class="btn-add-small" id="addTaskBtn">+</button>
+                </div>
+                <div class="task-list" id="taskList">
+                    <div class="task-item">
+                        <input type="checkbox" id="task1">
+                        <label for="task1">
+                            <span class="task-title">Grocery shopping</span>
+                        </label>
+                        <span class="task-date">Today</span>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" id="task2">
+                        <label for="task2">
+                            <span class="task-title">Call dentist</span>
+                        </label>
+                        <span class="task-date">Feb 10</span>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" id="task3">
+                        <label for="task3">
+                            <span class="task-title">Submit job application</span>
+                        </label>
+                        <span class="task-date">Feb 11</span>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" id="task4">
+                        <label for="task4">
+                            <span class="task-title">Team meeting prep</span>
+                        </label>
+                        <span class="task-date">Feb 12</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <h3>Upcoming Events</h3>
+                    <button class="btn-add-small" id="addEventBtn">+</button>
+                </div>
+                <div class="event-list" id="eventList">
+                    <div class="event-item">
+                        <div class="event-date">
+                            <span class="date-day">10</span>
+                            <span class="date-month">Feb</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>Doctor Appointment</h4>
+                            <p>2:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">
+                            <span class="date-day">12</span>
+                            <span class="date-month">Feb</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>Study Group</h4>
+                            <p>4:30 PM</p>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">
+                            <span class="date-day">14</span>
+                            <span class="date-month">Feb</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>Valentine's Day</h4>
+                            <p>All Day</p>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">
+                            <span class="date-day">16</span>
+                            <span class="date-month">Feb</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>Project Presentation</h4>
+                            <p>10:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Add Homework Modal -->
+    <div class="modal-overlay" id="homeworkModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Homework</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="homeworkForm">
+                <div class="form-row">
+                    <label for="homeworkClass">Class</label>
+                    <select id="homeworkClass" required>
+                        <option value="">Select a class...</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Math">Math</option>
+                        <option value="English">English</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Gym/Health">Gym/Health</option>
+                        <option value="History">History</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <label for="homeworkTitle">Assignment Title</label>
+                    <input type="text" id="homeworkTitle" placeholder="e.g., Chapter 5 Problems" required>
+                </div>
+                
+                <div class="form-row">
+                    <label for="homeworkDueDate">Due Date</label>
+                    <div class="date-input-wrapper">
+                        <input type="date" id="homeworkDueDate" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <label>Type</label>
+                    <div class="type-selector">
+                        <label class="type-option">
+                            <input type="radio" name="homeworkType" value="homework" checked>
+                            <span>Homework</span>
+                        </label>
+                        <label class="type-option">
+                            <input type="radio" name="homeworkType" value="test">
+                            <span>Test</span>
+                        </label>
+                        <label class="type-option">
+                            <input type="radio" name="homeworkType" value="project">
+                            <span>Project</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <label for="homeworkNotes">Notes (Optional)</label>
+                    <textarea id="homeworkNotes" rows="3" placeholder="Add any additional notes..."></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-submit">Confirm Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/supabase-config.js"></script>
+    <script src="../assets/js/dashboard-supabase.js"></script>
+</body>
+</html>
