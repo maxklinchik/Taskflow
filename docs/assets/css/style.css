@@ -6,9 +6,9 @@
 
 body {
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: #0a0e27;
+    background: #18181b;
     background-image: 
-        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
         radial-gradient(at 0% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%);
@@ -34,7 +34,7 @@ body {
 .logo h1 {
     font-size: 3.5rem;
     margin-bottom: 10px;
-    background: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 50%, #8b5cf6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -56,14 +56,14 @@ body {
 }
 
 .auth-box {
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(28, 28, 32, 0.8);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(148, 163, 184, 0.1);
     border-radius: 24px;
     padding: 40px;
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        0 0 0 1px rgba(28, 28, 32, 0.05) inset;
     width: 100%;
     max-width: 450px;
     animation: fadeIn 0.5s ease-in;
@@ -89,7 +89,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #cbd5e1;
+    color: #94a3b8;
     font-weight: 500;
     font-size: 0.9rem;
 }
@@ -97,7 +97,7 @@ body {
 .form-group input {
     width: 100%;
     padding: 14px 16px;
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(39, 39, 42, 0.5);
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 12px;
     font-size: 1rem;
@@ -106,14 +106,14 @@ body {
 }
 
 .form-group input::placeholder {
-    color: #64748b;
+    color: #94a3b8;
 }
 
 .form-group input:focus {
     outline: none;
-    background: rgba(30, 41, 59, 0.7);
-    border-color: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    background: rgba(39, 39, 42, 0.7);
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
 }
 
 .btn {
@@ -128,7 +128,7 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
     color: white;
     position: relative;
     overflow: hidden;
@@ -141,7 +141,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(28, 28, 32, 0.2), transparent);
     transition: left 0.5s;
 }
 
@@ -151,7 +151,7 @@ body {
 
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
 }
 
 .btn:active {
@@ -166,7 +166,7 @@ body {
 }
 
 .toggle-text a {
-    color: #10b981;
+    color: #a855f7;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s;
@@ -178,14 +178,14 @@ body {
 
 /* Features Section */
 .features {
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(28, 28, 32, 0.6);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(148, 163, 184, 0.1);
     border-radius: 24px;
     padding: 40px;
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        0 0 0 1px rgba(28, 28, 32, 0.05) inset;
 }
 
 .features h3 {
@@ -205,7 +205,7 @@ body {
 .feature-card {
     text-align: center;
     padding: 30px 20px;
-    background: rgba(30, 41, 59, 0.3);
+    background: rgba(39, 39, 42, 0.3);
     border-radius: 16px;
     border: 1px solid rgba(148, 163, 184, 0.1);
     transition: all 0.3s ease;
@@ -213,14 +213,14 @@ body {
 
 .feature-card:hover {
     transform: translateY(-5px);
-    background: rgba(30, 41, 59, 0.5);
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+    background: rgba(39, 39, 42, 0.5);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
 }
 
 .feature-icon {
     font-size: 3rem;
     margin-bottom: 15px;
-    filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.3));
+    filter: drop-shadow(0 4px 8px rgba(168, 85, 247, 0.3));
 }
 
 .feature-card h4 {

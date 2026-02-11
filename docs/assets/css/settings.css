@@ -1,0 +1,132 @@
+.settings-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.settings-content {
+    background: rgba(39, 39, 42, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.back-button-container {
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: #a855f7;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.back-button:hover {
+    background: rgba(168, 85, 247, 0.1);
+    transform: translateX(-4px);
+}
+
+.settings-section {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.settings-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: #f1f5f9;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.setting-info h3 {
+    font-size: 1.1rem;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.setting-info p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.theme-toggle {
+    display: flex;
+    gap: 0.75rem;
+    background: rgba(28, 28, 32, 0.5);
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.theme-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #94a3b8;
+}
+
+.theme-option:hover {
+    background: rgba(39, 39, 42, 0.5);
+}
+
+.theme-option.active {
+    background: rgba(168, 85, 247, 0.15);
+    border-color: #a855f7;
+    color: #a855f7;
+}
+
+.theme-icon {
+    font-size: 1.5rem;
+}
+
+.theme-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .theme-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .settings-container {
+        padding: 0 1rem;
+    }
+}

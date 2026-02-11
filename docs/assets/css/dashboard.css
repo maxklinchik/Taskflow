@@ -6,21 +6,21 @@
 
 body {
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: #0a0e27;
+    background: #18181b;
     background-image: 
-        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
-        radial-gradient(at 0% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(147, 51, 234, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.08) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(124, 58, 237, 0.1) 0px, transparent 50%);
     min-height: 100vh;
     color: #f1f5f9;
 }
 
 /* Header */
 .dashboard-header {
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(28, 28, 32, 0.95);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.15);
     padding: 1rem 2rem;
     position: sticky;
     top: 0;
@@ -37,7 +37,7 @@ body {
 
 .dashboard-header h1 {
     font-size: 1.8rem;
-    background: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #ec4899 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -51,12 +51,12 @@ body {
 }
 
 .welcome-text {
-    color: #cbd5e1;
+    color: #94a3b8;
     font-size: 0.95rem;
 }
 
 .welcome-text #userName {
-    color: #10b981;
+    color: #a855f7;
     font-weight: 600;
 }
 
@@ -74,6 +74,26 @@ body {
 .btn-logout:hover {
     background: rgba(239, 68, 68, 0.2);
     border-color: #ef4444;
+}
+
+.btn-settings {
+    padding: 0.5rem 1rem;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #a855f7;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-settings:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: #a855f7;
+    transform: translateY(-2px);
 }
 
 /* Main Dashboard Layout */
@@ -117,7 +137,7 @@ body {
 /* View Toggle */
 .view-toggle {
     display: flex;
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(39, 39, 42, 0.5);
     border-radius: 10px;
     padding: 4px;
     gap: 4px;
@@ -143,18 +163,18 @@ body {
 }
 
 .toggle-btn:hover {
-    color: #cbd5e1;
-    background: rgba(30, 41, 59, 0.5);
+    color: #94a3b8;
+    background: rgba(39, 39, 42, 0.5);
 }
 
 .toggle-btn.active {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
     color: white;
 }
 
 .btn-add {
     padding: 0.6rem 1.25rem;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
     border: none;
     color: white;
     border-radius: 8px;
@@ -166,15 +186,15 @@ body {
 
 .btn-add:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
 }
 
 .btn-add-small {
     width: 32px;
     height: 32px;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #10b981;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #a855f7;
     border-radius: 6px;
     cursor: pointer;
     font-size: 1.2rem;
@@ -186,8 +206,8 @@ body {
 }
 
 .btn-add-small:hover {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: #10b981;
+    background: rgba(168, 85, 247, 0.2);
+    border-color: #a855f7;
 }
 
 /* Main Content - Homework Grid */
@@ -206,7 +226,7 @@ body {
 }
 
 .homework-card {
-    background: rgba(15, 23, 42, 0.7);
+    background: rgba(28, 28, 32, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(148, 163, 184, 0.1);
     border-radius: 16px;
@@ -218,8 +238,8 @@ body {
 
 .homework-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
-    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
+    border-color: rgba(168, 85, 247, 0.3);
 }
 
 .homework-card .card-header {
@@ -234,12 +254,12 @@ body {
 .class-name {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #10b981;
+    color: #a855f7;
 }
 
 .item-count {
     font-size: 0.85rem;
-    color: #64748b;
+    color: #94a3b8;
     background: rgba(100, 116, 139, 0.2);
     padding: 0.25rem 0.75rem;
     border-radius: 12px;
@@ -256,21 +276,27 @@ body {
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.75rem;
-    background: rgba(30, 41, 59, 0.3);
+    background: rgba(39, 39, 42, 0.3);
     border-radius: 8px;
     transition: all 0.2s;
 }
 
 .homework-item:hover {
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(39, 39, 42, 0.5);
 }
 
 .homework-item input[type="checkbox"] {
     margin-top: 0.25rem;
     width: 18px;
     height: 18px;
-    accent-color: #10b981;
+    accent-color: #a855f7;
     cursor: pointer;
+}
+
+.homework-item .no-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-top: 0.25rem;
 }
 
 .homework-item label {
@@ -282,7 +308,7 @@ body {
 }
 
 .hw-title {
-    color: #e2e8f0;
+    color: #cbd5e1;
     font-weight: 500;
 }
 
@@ -327,17 +353,48 @@ body {
 
 .homework-item input[type="checkbox"]:checked + label .hw-title {
     text-decoration: line-through;
-    color: #64748b;
+    color: #94a3b8;
 }
 
 .empty-class-card {
     text-align: center;
     padding: 2rem 1rem;
-    color: #64748b;
+    color: #94a3b8;
     font-size: 0.95rem;
 }
 
 /* List View */
+.list-section {
+    margin-bottom: 2rem;
+}
+
+.list-section:last-child {
+    margin-bottom: 0;
+}
+
+.list-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(168, 85, 247, 0.3);
+}
+
+.list-section-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.list-empty-message {
+    padding: 1.5rem;
+    text-align: center;
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
 .homework-list-view {
     display: flex;
     flex-direction: column;
@@ -356,7 +413,7 @@ body {
     display: flex;
     gap: 1rem;
     padding: 1.25rem;
-    background: rgba(15, 23, 42, 0.7);
+    background: rgba(28, 28, 32, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(148, 163, 184, 0.1);
     border-radius: 12px;
@@ -366,8 +423,8 @@ body {
 
 .list-item:hover {
     transform: translateX(4px);
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
-    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.15);
+    border-color: rgba(168, 85, 247, 0.3);
 }
 
 .list-checkbox {
@@ -377,8 +434,13 @@ body {
 .list-checkbox input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    accent-color: #10b981;
+    accent-color: #a855f7;
     cursor: pointer;
+}
+
+.list-checkbox .no-checkbox {
+    width: 20px;
+    height: 20px;
 }
 
 .list-content {
@@ -401,8 +463,8 @@ body {
 .list-class {
     display: inline-block;
     padding: 0.25rem 0.75rem;
-    background: rgba(16, 185, 129, 0.15);
-    color: #10b981;
+    background: rgba(168, 85, 247, 0.15);
+    color: #a855f7;
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -413,9 +475,29 @@ body {
     font-size: 0.9rem;
 }
 
+.homework-type {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.homework-type.test {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.homework-type.project {
+    background: rgba(139, 92, 246, 0.15);
+    color: #8b5cf6;
+}
+
 .list-item input[type="checkbox"]:checked ~ .list-content .list-title {
     text-decoration: line-through;
-    color: #64748b;
+    color: #94a3b8;
 }
 
 .list-item input[type="checkbox"]:checked {
@@ -430,7 +512,7 @@ body {
 }
 
 .sidebar-section {
-    background: rgba(15, 23, 42, 0.7);
+    background: rgba(28, 28, 32, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(148, 163, 184, 0.1);
     border-radius: 16px;
@@ -449,40 +531,58 @@ body {
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem;
-    background: rgba(30, 41, 59, 0.4);
+    background: rgba(39, 39, 42, 0.4);
     border-radius: 8px;
     transition: all 0.2s;
 }
 
 .task-item:hover {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(39, 39, 42, 0.6);
 }
 
 .task-item input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: #10b981;
+    accent-color: #a855f7;
     cursor: pointer;
 }
 
 .task-item label {
     flex: 1;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 .task-title {
-    color: #e2e8f0;
+    color: #cbd5e1;
     font-size: 0.95rem;
 }
 
+.task-notes {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
 .task-date {
-    color: #64748b;
+    color: #94a3b8;
     font-size: 0.8rem;
 }
 
 .task-item input[type="checkbox"]:checked + label .task-title {
     text-decoration: line-through;
-    color: #64748b;
+    color: #94a3b8;
+}
+
+/* Empty state messages */
+.empty-message {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    padding: 2rem 1rem;
+    font-style: italic;
 }
 
 /* Events */
@@ -496,14 +596,44 @@ body {
     display: flex;
     gap: 1rem;
     padding: 1rem;
-    background: rgba(30, 41, 59, 0.4);
+    background: rgba(39, 39, 42, 0.4);
     border-radius: 8px;
     transition: all 0.2s;
+    position: relative;
 }
 
 .event-item:hover {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(39, 39, 42, 0.6);
     transform: translateX(4px);
+}
+
+.event-item:hover .delete-event-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.delete-event-btn {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-event-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
 }
 
 .event-date {
@@ -513,7 +643,7 @@ body {
     justify-content: center;
     min-width: 50px;
     padding: 0.5rem;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
     border-radius: 8px;
 }
 
@@ -526,7 +656,7 @@ body {
 
 .date-month {
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(28, 28, 32, 0.9);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -545,6 +675,25 @@ body {
 .event-details p {
     font-size: 0.85rem;
     color: #94a3b8;
+}
+
+.show-more-events-btn {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #a855f7;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.show-more-events-btn:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: #a855f7;
 }
 
 /* Responsive Design */
@@ -635,9 +784,9 @@ body {
 }
 
 .modal-content {
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(28, 28, 32, 0.98);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.2);
     border-radius: 20px;
     max-width: 500px;
     width: 100%;
@@ -663,7 +812,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.1);
 }
 
 .modal-header h3 {
@@ -693,7 +842,9 @@ body {
     color: #ef4444;
 }
 
-#homeworkForm {
+#homeworkForm,
+#taskForm,
+#eventForm {
     padding: 1.5rem;
 }
 
@@ -704,7 +855,7 @@ body {
 .form-row label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #cbd5e1;
+    color: #94a3b8;
     font-weight: 600;
     font-size: 0.95rem;
 }
@@ -715,7 +866,7 @@ body {
 .form-row textarea {
     width: 100%;
     padding: 0.875rem 1rem;
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(39, 39, 42, 0.5);
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 10px;
     color: #f1f5f9;
@@ -727,8 +878,8 @@ body {
 .form-row select:focus,
 .form-row textarea:focus {
     outline: none;
-    background: rgba(30, 41, 59, 0.7);
-    border-color: #10b981;
+    background: rgba(39, 39, 42, 0.7);
+    border-color: #a855f7;
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
@@ -781,7 +932,7 @@ body {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.875rem;
-    background: rgba(30, 41, 59, 0.5);
+    background: rgba(39, 39, 42, 0.5);
     border: 2px solid rgba(148, 163, 184, 0.2);
     border-radius: 10px;
     color: #94a3b8;
@@ -790,13 +941,13 @@ body {
 }
 
 .type-option input[type="radio"]:checked + span {
-    background: rgba(16, 185, 129, 0.15);
-    border-color: #10b981;
-    color: #10b981;
+    background: rgba(168, 85, 247, 0.15);
+    border-color: #a855f7;
+    color: #a855f7;
 }
 
 .type-option:hover span {
-    background: rgba(30, 41, 59, 0.7);
+    background: rgba(39, 39, 42, 0.7);
 }
 
 .modal-actions {
@@ -820,13 +971,13 @@ body {
 
 .btn-cancel:hover {
     background: rgba(100, 116, 139, 0.3);
-    border-color: #64748b;
+    border-color: #94a3b8;
 }
 
 .btn-submit {
     flex: 1;
     padding: 0.875rem;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
     border: none;
     color: white;
     border-radius: 10px;
@@ -838,5 +989,5 @@ body {
 
 .btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
 }

@@ -5,6 +5,7 @@ CREATE TABLE homework (
     class TEXT NOT NULL,
     title TEXT NOT NULL,
     due_date DATE NOT NULL,
+    due_time TEXT,
     type TEXT NOT NULL CHECK (type IN ('homework', 'test', 'project')),
     notes TEXT,
     completed BOOLEAN DEFAULT FALSE,
@@ -16,7 +17,8 @@ CREATE TABLE tasks (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
-    date TEXT NOT NULL,
+    date DATE NOT NULL,
+    notes TEXT,
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -26,9 +28,8 @@ CREATE TABLE events (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
-    day TEXT NOT NULL,
-    month TEXT NOT NULL,
-    time TEXT NOT NULL,
+    date DATE NOT NULL,
+    time TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

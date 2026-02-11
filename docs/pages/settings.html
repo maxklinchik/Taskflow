@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - CalendarProject</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/settings.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1>Settings</h1>
+            <div class="user-section">
+                <span class="welcome-text">Hello, <span id="userName">User</span></span>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="settings-container">
+        <div class="settings-content">
+            <!-- Back Button -->
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button">
+                    ← Back to Dashboard
+                </a>
+            </div>
+
+            <!-- Theme Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">Appearance</h2>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Theme</h3>
+                        <p>Choose between light and dark mode</p>
+                    </div>
+                    <div class="theme-toggle">
+                        <button class="theme-option" data-theme="light">
+                            <span class="theme-icon">☀️</span>
+                            <span class="theme-label">Light</span>
+                        </button>
+                        <button class="theme-option active" data-theme="dark">
+                            <span class="theme-icon">🌙</span>
+                            <span class="theme-label">Dark</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/supabase-config.js"></script>
+    <script src="../assets/js/settings.js"></script>
+</body>
+</html>

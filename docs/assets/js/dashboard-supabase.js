@@ -1,5 +1,11 @@
 // Load user data
 document.addEventListener('DOMContentLoaded', async () => {
+    // Apply saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+    }
+    
     // Check if user is logged in with Supabase
     const { data: { user } } = await supabase.auth.getUser();
     
@@ -65,32 +71,48 @@ function setupEventListeners() {
         submitHomework();
     });
     
-    // Add task button
+    // Add task button - open modal
     document.getElementById('addTaskBtn').addEventListener('click', () => {
-        const title = prompt('Enter task title:');
-        if (!title) return;
-        
-        const date = prompt('Enter date (e.g., Feb 10):');
-        if (!date) return;
-        
-        addTask(title, date);
+        openTaskModal();
     });
     
-    // Add event button
+    // Task modal close buttons
+    document.getElementById('closeTaskModal').addEventListener('click', closeTaskModal);
+    document.getElementById('cancelTaskBtn').addEventListener('click', closeTaskModal);
+    
+    // Close task modal on overlay click
+    document.getElementById('taskModal').addEventListener('click', (e) => {
+        if (e.target.id === 'taskModal') {
+            closeTaskModal();
+        }
+    });
+    
+    // Task form submission
+    document.getElementById('taskForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitTask();
+    });
+    
+    // Add event button - open modal
     document.getElementById('addEventBtn').addEventListener('click', () => {
-        const title = prompt('Enter event title:');
-        if (!title) return;
-        
-        const date = prompt('Enter date (day, e.g., 15):');
-        if (!date) return;
-        
-        const month = prompt('Enter month (e.g., Feb):');
-        if (!month) return;
-        
-        const time = prompt('Enter time (e.g., 2:00 PM):');
-        if (!time) return;
-        
-        addEvent(title, date, month, time);
+        openEventModal();
+    });
+    
+    // Event modal close buttons
+    document.getElementById('closeEventModal').addEventListener('click', closeEventModal);
+    document.getElementById('cancelEventBtn').addEventListener('click', closeEventModal);
+    
+    // Close event modal on overlay click
+    document.getElementById('eventModal').addEventListener('click', (e) => {
+        if (e.target.id === 'eventModal') {
+            closeEventModal();
+        }
+    });
+    
+    // Event form submission
+    document.getElementById('eventForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitEvent();
     });
 }
 
@@ -141,12 +163,112 @@ function closeHomeworkModal() {
     document.getElementById('homeworkForm').reset();
 }
 
+// Task Modal functions
+function openTaskModal() {
+    const modal = document.getElementById('taskModal');
+    modal.classList.add('active');
+}
+
+function closeTaskModal() {
+    const modal = document.getElementById('taskModal');
+    modal.classList.remove('active');
+    document.getElementById('taskForm').reset();
+}
+
+async function submitTask() {
+    const title = document.getElementById('taskTitle').value;
+    const date = document.getElementById('taskDate').value;
+    const notes = document.getElementById('taskNotes').value;
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    try {
+        const { error } = await supabase
+            .from('tasks')
+            .insert([{
+                user_id: user.id,
+                title: title,
+                date: date,
+                notes: notes,
+                completed: false
+            }]);
+        
+        if (error) throw error;
+        
+        // Close modal and reload
+        closeTaskModal();
+        loadTasks();
+    } catch (error) {
+        alert('Error adding task: ' + error.message);
+    }
+}
+
+// Event Modal functions
+function openEventModal() {
+    const modal = document.getElementById('eventModal');
+    modal.classList.add('active');
+}
+
+function closeEventModal() {
+    const modal = document.getElementById('eventModal');
+    modal.classList.remove('active');
+    document.getElementById('eventForm').reset();
+}
+
+async function submitEvent() {
+    const title = document.getElementById('eventTitle').value;
+    const date = document.getElementById('eventDate').value;
+    const timeInput = document.getElementById('eventTime').value;
+    
+    // Convert 24-hour time to 12-hour with AM/PM if time is provided
+    let time = null;
+    if (timeInput) {
+        const [hours, minutes] = timeInput.split(':');
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour % 12 || 12;
+        time = `${displayHour}:${minutes} ${ampm}`;
+    }
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    try {
+        const { error } = await supabase
+            .from('events')
+            .insert([{
+                user_id: user.id,
+                title: title,
+                date: date,
+                time: time
+            }]);
+        
+        if (error) throw error;
+        
+        // Close modal and reload
+        closeEventModal();
+        loadEvents();
+    } catch (error) {
+        alert('Error adding event: ' + error.message);
+    }
+}
+
 async function submitHomework() {
     const className = document.getElementById('homeworkClass').value;
-    const title = document.getElementById('homeworkTitle').value;
+    const title = document.getElementById('homeworkTitleInput').value;
     const dueDate = document.getElementById('homeworkDueDate').value;
     const type = document.querySelector('input[name="homeworkType"]:checked').value;
     const notes = document.getElementById('homeworkNotes').value;
+    const timeInput = document.getElementById('homeworkDueTime').value;
+    
+    // Convert 24-hour time to 12-hour with AM/PM if time is provided
+    let dueTime = null;
+    if (timeInput) {
+        const [hours, minutes] = timeInput.split(':');
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour % 12 || 12;
+        dueTime = `${displayHour}:${minutes} ${ampm}`;
+    }
     
     const { data: { user } } = await supabase.auth.getUser();
     
@@ -158,6 +280,7 @@ async function submitHomework() {
                 class: className,
                 title: title,
                 due_date: dueDate,
+                due_time: dueTime,
                 type: type,
                 notes: notes,
                 completed: false
@@ -190,10 +313,22 @@ async function loadClassView() {
         
         if (error) throw error;
         
+        // Filter out tests that are past 3:00 PM on their due date
+        const currentTime = new Date();
+        const filteredHomework = allHomework.filter(hw => {
+            if (hw.type !== 'test') return true;
+            
+            const [year, month, day] = hw.due_date.split('-');
+            const testDate = new Date(year, month - 1, day);
+            testDate.setHours(15, 0, 0, 0); // Set to 3:00 PM
+            
+            return currentTime < testDate;
+        });
+        
         const container = document.getElementById('homeworkGrid');
         
         container.innerHTML = CLASSES.map(className => {
-            const classHomework = allHomework.filter(hw => hw.class === className);
+            const classHomework = filteredHomework.filter(hw => hw.class === className);
             
             return `
                 <div class="homework-card">
@@ -205,17 +340,45 @@ async function loadClassView() {
                         ${classHomework.length === 0 ? 
                             '<div class="empty-class-card">No assignments yet</div>' :
                             classHomework.map(hw => {
-                                const date = new Date(hw.due_date);
-                                const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                const [year, month, day] = hw.due_date.split('-');
+                                const date = new Date(year, month - 1, day);
+                                
+                                // Check if it's today or tomorrow
+                                const today = new Date();
+                                today.setHours(0, 0, 0, 0);
+                                const tomorrow = new Date(today);
+                                tomorrow.setDate(tomorrow.getDate() + 1);
+                                date.setHours(0, 0, 0, 0);
+                                
+                                const isToday = date.getTime() === today.getTime();
+                                const isTomorrow = date.getTime() === tomorrow.getTime();
+                                
+                                // Format date
+                                let formattedDate;
+                                if (isToday) {
+                                    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                    formattedDate = `Today, ${monthDay}`;
+                                } else if (isTomorrow) {
+                                    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                    formattedDate = `Tomorrow, ${monthDay}`;
+                                } else {
+                                    formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                                }
+                                
+                                // Add time if available
+                                const timeDisplay = hw.due_time ? ` at ${hw.due_time}` : '';
+                                
+                                // Use 'On:' for tests, 'Due:' for other assignments
+                                const dateLabel = hw.type === 'test' ? 'On:' : 'Due:';
                                 
                                 return `
                                     <div class="homework-item">
-                                        <input type="checkbox" id="hw-class-${hw.id}" onchange="toggleHomework('${hw.id}', true)">
+                                        ${hw.type !== 'test' ? `<input type="checkbox" id="hw-class-${hw.id}" onchange="toggleHomework('${hw.id}', true)">` : '<span class="no-checkbox"></span>'}
                                         <label for="hw-class-${hw.id}">
                                             <span class="hw-title">${hw.title}</span>
                                             <div class="hw-meta">
                                                 <span class="hw-type ${hw.type}">${getTypeIcon(hw.type)} ${hw.type}</span>
-                                                <span class="hw-due">Due: ${formattedDate}</span>
+                                                <span class="hw-due">${dateLabel} ${formattedDate}${timeDisplay}</span>
                                             </div>
                                             ${hw.notes ? `<span class="hw-notes">${hw.notes}</span>` : ''}
                                         </label>
@@ -251,45 +414,173 @@ async function loadListView() {
         
         if (error) throw error;
         
+        // Filter out tests that are past 3:00 PM on their due date
+        const currentTime = new Date();
+        const filteredHomework = activeHomework.filter(hw => {
+            if (hw.type !== 'test') return true;
+            
+            const [year, month, day] = hw.due_date.split('-');
+            const testDate = new Date(year, month - 1, day);
+            testDate.setHours(15, 0, 0, 0); // Set to 3:00 PM
+            
+            return currentTime < testDate;
+        });
+        
         const container = document.getElementById('homeworkListView');
         
-        if (activeHomework.length === 0) {
+        if (filteredHomework.length === 0) {
             container.innerHTML = '<div class="empty-state"><p>No homework yet. Click "+ Add Homework" to get started!</p></div>';
             return;
         }
         
-        container.innerHTML = activeHomework.map(hw => {
-            const date = new Date(hw.due_date);
-            const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        // Get current date and calculate date ranges
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        const endOfWeek = new Date(now);
+        endOfWeek.setDate(endOfWeek.getDate() + 7);
+        
+        // Helper function to convert time string to minutes for sorting
+        const timeToMinutes = (timeStr) => {
+            if (!timeStr) return 9999; // Put items without time at the end
+            const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+            if (!match) return 9999;
+            let hours = parseInt(match[1]);
+            const minutes = parseInt(match[2]);
+            const ampm = match[3].toUpperCase();
+            if (ampm === 'PM' && hours !== 12) hours += 12;
+            if (ampm === 'AM' && hours === 12) hours = 0;
+            return hours * 60 + minutes;
+        };
+        
+        // Categorize homework
+        const dueByTomorrow = [];
+        const dueThisWeek = [];
+        const other = [];
+        
+        filteredHomework.forEach(hw => {
+            const [year, month, day] = hw.due_date.split('-');
+            const dueDate = new Date(year, month - 1, day);
+            dueDate.setHours(0, 0, 0, 0);
             
-            return `
-                <div class="list-item" data-due="${hw.due_date}" data-class="${hw.class}">
-                    <div class="list-checkbox">
-                        <input type="checkbox" id="hw-list-${hw.id}" onchange="toggleHomework('${hw.id}', true)">
-                    </div>
-                    <div class="list-content">
-                        <h4 class="list-title">${hw.title}</h4>
-                        <div class="list-meta">
-                            <span class="list-class">${hw.class}</span>
-                            <span class="list-due">Due: ${formattedDate}</span>
-                            <span class="homework-type ${hw.type}">${getTypeIcon(hw.type)} ${hw.type}</span>
+            if (dueDate.getTime() <= tomorrow.getTime()) {
+                dueByTomorrow.push(hw);
+            } else if (dueDate <= endOfWeek) {
+                dueThisWeek.push(hw);
+            } else {
+                other.push(hw);
+            }
+        });
+        
+        // Sort each category: first by date, then by time
+        const sortByDateTime = (a, b) => {
+            if (a.due_date !== b.due_date) {
+                return a.due_date.localeCompare(b.due_date);
+            }
+            return timeToMinutes(a.due_time) - timeToMinutes(b.due_time);
+        };
+        
+        dueByTomorrow.sort(sortByDateTime);
+        dueThisWeek.sort(sortByDateTime);
+        other.sort(sortByDateTime);
+        
+        // Helper function to render homework items
+        const renderHomeworkItems = (items) => {
+            return items.map(hw => {
+                const [year, month, day] = hw.due_date.split('-');
+                const date = new Date(year, month - 1, day);
+                
+                // Check if it's today or tomorrow
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                date.setHours(0, 0, 0, 0);
+                
+                const isToday = date.getTime() === today.getTime();
+                const isTomorrow = date.getTime() === tomorrow.getTime();
+                
+                // Format date - use 'Today' or 'Tomorrow' if applicable, otherwise show weekday
+                let formattedDate;
+                if (isToday) {
+                    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    formattedDate = `Today, ${monthDay}`;
+                } else if (isTomorrow) {
+                    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    formattedDate = `Tomorrow, ${monthDay}`;
+                } else {
+                    formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                }
+                
+                // Add time if available
+                const timeDisplay = hw.due_time ? ` at ${hw.due_time}` : '';
+                
+                // Use 'On:' for tests, 'Due:' for other assignments
+                const dateLabel = hw.type === 'test' ? 'On:' : 'Due:';
+                
+                return `
+                    <div class="list-item" data-due="${hw.due_date}" data-class="${hw.class}">
+                        <div class="list-checkbox">
+                            ${hw.type !== 'test' ? `<input type="checkbox" id="hw-list-${hw.id}" onchange="toggleHomework('${hw.id}', true)">` : '<span class="no-checkbox"></span>'}
                         </div>
-                        ${hw.notes ? `<p class="homework-notes">${hw.notes}</p>` : ''}
+                        <div class="list-content">
+                            <h4 class="list-title">${hw.title}</h4>
+                            <div class="list-meta">
+                                <span class="list-class">${hw.class}</span>
+                                <span class="list-due">${dateLabel} ${formattedDate}${timeDisplay}</span>
+                                <span class="homework-type ${hw.type}">${getTypeIcon(hw.type)} ${hw.type}</span>
+                            </div>
+                            ${hw.notes ? `<p class="homework-notes">${hw.notes}</p>` : ''}
+                        </div>
                     </div>
+                `;
+            }).join('');
+        };
+        
+        // Build HTML with sections
+        let html = '';
+        
+        // Due by tomorrow
+        html += `
+            <div class="list-section">
+                <h3 class="list-section-title">Due by Tomorrow</h3>
+                <div class="list-section-items">
+                    ${dueByTomorrow.length > 0 ? renderHomeworkItems(dueByTomorrow) : '<p class="list-empty-message">No assignments due by tomorrow</p>'}
                 </div>
-            `;
-        }).join('');
+            </div>
+        `;
+        
+        // This Week
+        html += `
+            <div class="list-section">
+                <h3 class="list-section-title">This Week</h3>
+                <div class="list-section-items">
+                    ${dueThisWeek.length > 0 ? renderHomeworkItems(dueThisWeek) : '<p class="list-empty-message">No assignments this week</p>'}
+                </div>
+            </div>
+        `;
+        
+        // Other Assignments
+        html += `
+            <div class="list-section">
+                <h3 class="list-section-title">Other Assignments</h3>
+                <div class="list-section-items">
+                    ${other.length > 0 ? renderHomeworkItems(other) : '<p class="list-empty-message">No other assignments</p>'}
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
     } catch (error) {
         console.error('Error loading list view:', error);
     }
 }
 
 function getTypeIcon(type) {
-    switch(type) {
-        case 'test': return '📄';
-        case 'project': return '📊';
-        default: return '📝';
-    }
+    return '';
 }
 
 // Toggle homework completion
@@ -322,44 +613,154 @@ function addHomework(className, title, dueDate) {
 }
 
 // Task functions
-function loadTasks() {
-    // Keep using localStorage for tasks for now, or migrate to Supabase later
-    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+async function loadTasks() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    try {
+        const { data: tasks, error } = await supabase
+            .from('tasks')
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('completed', false)
+            .order('date', { ascending: true });
+        
+        if (error) throw error;
+        
+        const container = document.getElementById('taskList');
+        
+        if (!tasks || tasks.length === 0) {
+            container.innerHTML = '<p class="empty-message">No tasks yet. Click + to add one!</p>';
+            return;
+        }
+        
+        container.innerHTML = tasks.map(task => {
+            const date = new Date(task.date);
+            const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            
+            return `
+                <div class="task-item">
+                    <input type="checkbox" id="task-${task.id}" onchange="toggleTask('${task.id}', true)">
+                    <label for="task-${task.id}">
+                        <span class="task-title">${task.title}</span>
+                        ${task.notes ? `<span class="task-notes">${task.notes}</span>` : ''}
+                    </label>
+                    <span class="task-date">${formattedDate}</span>
+                </div>
+            `;
+        }).join('');
+    } catch (error) {
+        console.error('Error loading tasks:', error);
+    }
 }
 
-function addTask(title, date) {
-    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    tasks.push({
-        id: Date.now(),
-        title: title,
-        date: date,
-        completed: false
-    });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    
-    alert('Task added! (Refresh to see changes)');
-    location.reload();
+async function toggleTask(id, completed) {
+    try {
+        const { error } = await supabase
+            .from('tasks')
+            .update({ completed })
+            .eq('id', id);
+        
+        if (error) throw error;
+        
+        // Reload tasks after short delay
+        setTimeout(() => {
+            loadTasks();
+        }, 300);
+    } catch (error) {
+        console.error('Error toggling task:', error);
+    }
 }
 
 // Event functions
-function loadEvents() {
-    // Keep using localStorage for events for now, or migrate to Supabase later
-    const events = JSON.parse(localStorage.getItem('events') || '[]');
+let showAllEvents = false;
+
+async function loadEvents() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    try {
+        const { data: events, error } = await supabase
+            .from('events')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('date', { ascending: true });
+        
+        if (error) throw error;
+        
+        const container = document.getElementById('eventList');
+        
+        if (!events || events.length === 0) {
+            container.innerHTML = '<p class="empty-message">No events yet. Click + to add one!</p>';
+            return;
+        }
+        
+        // Determine how many events to show
+        const eventsToShow = showAllEvents ? events : events.slice(0, 4);
+        const hasMore = events.length > 4;
+        
+        let html = eventsToShow.map(event => {
+            const date = new Date(event.date);
+            const day = date.getDate();
+            const month = date.toLocaleDateString('en-US', { month: 'short' });
+            
+            // Format time - already formatted with AM/PM from database or 'All Day'
+            const time = event.time || 'All Day';
+            
+            return `
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="date-day">${day}</span>
+                        <span class="date-month">${month}</span>
+                    </div>
+                    <div class="event-details">
+                        <h4>${event.title}</h4>
+                        <p>${time}</p>
+                    </div>
+                    <button class="delete-event-btn" onclick="deleteEvent('${event.id}')" title="Delete event">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+        }).join('');
+        
+        // Add "Show More" or "Show Less" button if there are more than 4 events
+        if (hasMore) {
+            html += `
+                <button class="show-more-events-btn" onclick="toggleShowAllEvents()">
+                    ${showAllEvents ? 'Show Less' : `Show More (${events.length - 4} more)`}
+                </button>
+            `;
+        }
+        
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Error loading events:', error);
+    }
 }
 
-function addEvent(title, day, month, time) {
-    const events = JSON.parse(localStorage.getItem('events') || '[]');
-    events.push({
-        id: Date.now(),
-        title: title,
-        day: day,
-        month: month,
-        time: time
-    });
-    localStorage.setItem('events', JSON.stringify(events));
+async function deleteEvent(id) {
+    if (!confirm('Are you sure you want to delete this event?')) {
+        return;
+    }
     
-    alert('Event added! (Refresh to see changes)');
-    location.reload();
+    try {
+        const { error } = await supabase
+            .from('events')
+            .delete()
+            .eq('id', id);
+        
+        if (error) throw error;
+        
+        loadEvents();
+    } catch (error) {
+        console.error('Error deleting event:', error);
+    }
+}
+
+function toggleShowAllEvents() {
+    showAllEvents = !showAllEvents;
+    loadEvents();
 }
 
 // Save checkbox states
