@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userName = user.user_metadata.name || user.email.split('@')[0];
     document.getElementById('userName').textContent = userName;
     
+    // Display user email
+    document.getElementById('userEmail').textContent = user.email;
+    
     // Load current theme
     loadCurrentTheme();
     
@@ -81,23 +84,81 @@ function setupEventListeners() {
             window.location.href = '../index.html';
         }
     });
+    
+    // Show password change form
+    document.getElementById('showPasswordForm').addEventListener('click', () => {
+        document.getElementById('passwordFormContainer').classList.remove('hidden');
+        document.getElementById('showPasswordForm').disabled = true;
+    });
+    
+    // Cancel password change
+    document.getElementById('cancelPasswordChange').addEventListener('click', () => {
+        document.getElementById('passwordFormContainer').classList.add('hidden');
+        document.getElementById('showPasswordForm').disabled = false;
+        document.getElementById('changePasswordForm').reset();
+    });
+    
+    // Handle password change form submission
+    document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Validate passwords match
+        if (newPassword !== confirmPassword) {
+            showNotification('Passwords do not match!', 'error');
+            return;
+        }
+        
+        // Validate password length
+        if (newPassword.length < 6) {
+            showNotification('Password must be at least 6 characters long!', 'error');
+            return;
+        }
+        
+        try {
+            const { error } = await supabase.auth.updateUser({
+                password: newPassword
+            });
+            
+            if (error) throw error;
+            
+            // Success
+            showNotification('Password updated successfully!');
+            document.getElementById('passwordFormContainer').classList.add('hidden');
+            document.getElementById('showPasswordForm').disabled = false;
+            document.getElementById('changePasswordForm').reset();
+        } catch (error) {
+            showNotification('Error updating password: ' + error.message, 'error');
+        }
+    });
 }
 
 // Show notification
-function showNotification(message) {
+function showNotification(message, type = 'success') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
+    
+    const bgColor = type === 'error' 
+        ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' 
+        : 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)';
+    
+    const shadowColor = type === 'error'
+        ? 'rgba(239, 68, 68, 0.4)'
+        : 'rgba(168, 85, 247, 0.4)';
+    
     notification.style.cssText = `
         position: fixed;
         top: 2rem;
         right: 2rem;
-        background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+        background: ${bgColor};
         color: white;
         padding: 1rem 1.5rem;
         border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+        box-shadow: 0 10px 30px ${shadowColor};
         z-index: 10000;
         animation: slideIn 0.3s ease-out;
     `;

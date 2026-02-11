@@ -519,7 +519,7 @@ async function loadListView() {
                 const timeDisplay = hw.due_time ? ` at ${hw.due_time}` : '';
                 
                 // Use 'On:' for tests, 'Due:' for other assignments
-                const dateLabel = hw.type === 'test' ? 'On:' : 'Due:';
+                const dateLabel = hw.type === 'test' ? '' : 'Due:';
                 
                 return `
                     <div class="list-item" data-due="${hw.due_date}" data-class="${hw.class}">
@@ -634,7 +634,9 @@ async function loadTasks() {
         }
         
         container.innerHTML = tasks.map(task => {
-            const date = new Date(task.date);
+            // Parse date manually to avoid timezone issues
+            const [year, month, day] = task.date.split('-');
+            const date = new Date(year, month - 1, day);
             const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
             
             return `
@@ -693,14 +695,13 @@ async function loadEvents() {
             return;
         }
         
-        // Determine how many events to show
-        const eventsToShow = showAllEvents ? events : events.slice(0, 4);
-        const hasMore = events.length > 4;
-        
-        let html = eventsToShow.map(event => {
-            const date = new Date(event.date);
-            const day = date.getDate();
-            const month = date.toLocaleDateString('en-US', { month: 'short' });
+        // Display all events
+        let html = events.map(event => {
+            // Parse date manually to avoid timezone issues
+            const [year, month, day] = event.date.split('-');
+            const date = new Date(year, month - 1, day);
+            const dayNum = date.getDate();
+            const monthName = date.toLocaleDateString('en-US', { month: 'short' });
             
             // Format time - already formatted with AM/PM from database or 'All Day'
             const time = event.time || 'All Day';
@@ -708,8 +709,8 @@ async function loadEvents() {
             return `
                 <div class="event-item">
                     <div class="event-date">
-                        <span class="date-day">${day}</span>
-                        <span class="date-month">${month}</span>
+                        <span class="date-day">${dayNum}</span>
+                        <span class="date-month">${monthName}</span>
                     </div>
                     <div class="event-details">
                         <h4>${event.title}</h4>
@@ -723,15 +724,6 @@ async function loadEvents() {
                 </div>
             `;
         }).join('');
-        
-        // Add "Show More" or "Show Less" button if there are more than 4 events
-        if (hasMore) {
-            html += `
-                <button class="show-more-events-btn" onclick="toggleShowAllEvents()">
-                    ${showAllEvents ? 'Show Less' : `Show More (${events.length - 4} more)`}
-                </button>
-            `;
-        }
         
         container.innerHTML = html;
     } catch (error) {
