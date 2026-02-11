@@ -191,16 +191,6 @@ Theme preference is stored in localStorage and persists across sessions.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Future Enhancements
-
-- [ ] Delete/edit functionality for homework and tasks
-- [ ] Calendar view with monthly grid
-- [ ] Notifications and reminders
-- [ ] Mobile app version
-- [ ] Class schedule management
-- [ ] Grade tracking
-- [ ] Export assignments to CSV/PDF
-
 ## License
 
 This project is licensed under the MIT License.
