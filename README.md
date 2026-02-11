@@ -2,6 +2,8 @@
 
 A modern, feature-rich homework and task management application designed for students. Track assignments, manage tasks, and organize events with an intuitive, glassmorphism-styled interface.
 
+Link to Website: https://maxklinchik.github.io/Taskflow/
+
 ## Features
 
 ### 📚 Assignment Management
