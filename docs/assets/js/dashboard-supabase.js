@@ -177,7 +177,6 @@ function closeTaskModal() {
 
 async function submitTask() {
     const title = document.getElementById('taskTitle').value;
-    const date = document.getElementById('taskDate').value;
     const notes = document.getElementById('taskNotes').value;
     
     const { data: { user } } = await supabase.auth.getUser();
@@ -188,7 +187,6 @@ async function submitTask() {
             .insert([{
                 user_id: user.id,
                 title: title,
-                date: date,
                 notes: notes,
                 completed: false
             }]);
@@ -622,7 +620,7 @@ async function loadTasks() {
             .select('*')
             .eq('user_id', user.id)
             .eq('completed', false)
-            .order('date', { ascending: true });
+            .order('created_at', { ascending: true });
         
         if (error) throw error;
         
@@ -634,11 +632,6 @@ async function loadTasks() {
         }
         
         container.innerHTML = tasks.map(task => {
-            // Parse date manually to avoid timezone issues
-            const [year, month, day] = task.date.split('-');
-            const date = new Date(year, month - 1, day);
-            const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-            
             return `
                 <div class="task-item">
                     <input type="checkbox" id="task-${task.id}" onchange="toggleTask('${task.id}', true)">
@@ -646,7 +639,6 @@ async function loadTasks() {
                         <span class="task-title">${task.title}</span>
                         ${task.notes ? `<span class="task-notes">${task.notes}</span>` : ''}
                     </label>
-                    <span class="task-date">${formattedDate}</span>
                 </div>
             `;
         }).join('');
